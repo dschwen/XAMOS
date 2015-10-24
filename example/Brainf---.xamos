@@ -1,0 +1,87 @@
+' Simple brainf*** interpreter in XAMOS to demonstrate Turing-completeness:
+
+' Define the program's memory:
+Dim MEMORY(100000)
+'Global MEMORY()
+
+
+' Hello World program in brainf***:
+PROG$=">+++++++++[<++++++++>-]<.>+++++++[<++++>-]<+.+++++++..+++.>>>++++++++[<++++>-]"
+PROG$=PROG$+"<.>>>++++++++++[<+++++++++>-]<---.<<<<.+++.------.--------.>>+."
+
+' Run the program here and display its output:
+Proc DISPLAYBRAINF[PROG$]
+
+
+' Procedure to run a brainf**k string and display both input and output:
+Procedure DISPLAYBRAINF[PROGRAM$]
+	Print "Input code:" : Print PROG$ : Print "" : Print "Program output:"
+	Proc BRAINF[PROGRAM$]
+	Print Param$()
+End Proc
+
+' Procedure to run a brainf**k string (no key input) and return output:
+Procedure BRAINF[PROGRAM$]
+	' Erase the memory:
+	N=0 : While N<100000 : MEMORY(N)=0 : N=N+1 : Wend
+
+	' Reset the program cursor and clear the output:
+	OUTPUT$="" : CURSOR=0 : PROGLEN=Len(PROGRAM$)
+
+	' Load program into memory (von Newmann architecture):
+	While CURSOR < PROGLEN : MEMORY(CURSOR)=Asc(Mid$(PROGRAM$, CURSOR+1, 1)) : CURSOR=CURSOR+1 : Wend
+	POINTER=PROGLEN : CURSOR=0
+
+	' Process the length of the program:
+	While CURSOR < PROGLEN
+		' Get the instruction from Ascii value of each character:
+		If POINTER<0 : Print "ERROR" : End : End If
+		COMMAND = MEMORY(CURSOR)
+
+		' Execute the command here:
+		If COMMAND=62
+			POINTER=POINTER+1
+		Else If COMMAND=60
+			POINTER=POINTER-1
+		Else If COMMAND=43
+			MEMORY(POINTER) = MEMORY(POINTER)+1
+		Else If COMMAND=45
+			MEMORY(POINTER) = MEMORY(POINTER)-1
+		Else If COMMAND=46
+			' TODO - live printing without endline:
+			'Print Chr$(MEMORY(POINTER));
+			OUTPUT$=OUTPUT$+Chr$(MEMORY(POINTER))
+		Else If COMMAND=44
+			' TODO - Inkey$ to get key input:
+			MEMORY(POINTER)=Inkey$()
+		Else If COMMAND=91
+			JMP=1
+			If MEMORY(POINTER)=0
+				Repeat
+					CURSOR=CURSOR+1
+					If MEMORY(CURSOR)=91
+						JMP=JMP+1
+					Else If MEMORY(CURSOR)=93
+						JMP=JMP-1
+					End If
+				Until MEMORY(CURSOR)=93 and JMP=0
+			End If
+		Else If COMMAND=93
+			JMP=1
+			If MEMORY(POINTER)!=0
+				Repeat
+					CURSOR=CURSOR-1
+					If MEMORY(CURSOR)=93
+						JMP=JMP+1
+					Else If MEMORY(CURSOR)=91
+						JMP=JMP-1
+					End If
+				Until MEMORY(CURSOR)=91 and JMP=0
+			End If
+		End If
+
+		' Move on the cursor position:
+		CURSOR=CURSOR+1
+	Wend
+End Proc[OUTPUT$]
+

@@ -1,0 +1,438 @@
+' An example AMAL demo
+' Setup is in the AMAL Environment
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+' AMAL multiple channel example
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+Screen Open 0,720,576,16777216,Hires+Laced
+Load Iff "resources/starfield.jpg", 0
+Load "resources/sprites", 1
+
+AMAL Channel 1
+an example with multiple channels
+this channel is from the game control example
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+
+Let X=320; Let Y=256; Let A=1;
+
+Back:
+	Pause;
+	If J1&16 then Jump Back;
+	
+	Let X=X+R0;
+	Let Y=Y+R1;
+	
+    If J1&1 then Jump Up;
+X:  If J1&2 then Jump Down;
+Y:  If J1&4 then Jump Left;
+Z:  If J1&8 then Jump Right;
+Jump Back
+Up:
+	Let R0 = 0;
+	Let R1 = -6;
+Jump X
+Down:
+	Let R0 = 0;
+	Let R1 = 6;
+Jump Y
+Left:
+	If R0 = -6 then Jump Z
+	Let R0 = -6;
+	Let R1 = 0;
+	Anim 0,(0,5)(1,5)(2,5)(1,5);
+Jump Z
+Right:
+	If R0 = 6 then Jump Back
+	Let R0 = 6;
+	Let R1 = 0;
+	Anim 0,($8000+0,5)($8000+1,5)($8000+2,5)($8000+1,5);
+Jump Back
+
+AMAL Channel 2
+based on the default movement
+
+Let X=10; Let Y=10;				   define initial sprite position
+Back:								define jump point
+	Animate 0,($8000,7)($8001,7)($8002,7)($8001,7);		flip right
+	Move 560, 0, 30; 					move right
+	Animate 0,($4003,7)($4004,7)($4005,7)($4004,7);		rotate down
+	Move 0, 400, 30; 					move down
+	Animate 0,($4000,7)($4001,7)($4002,7)($4001,7);		flip upside down
+	Move -560, 0, 30; 					move left
+	Animate 0,($8003,7)($8004,7)($8005,7)($8004,7);		flip up
+	Move 0, -400, 30;					move up
+Jump Back							goto jump point
+
+
+AMAL Channel 3
+move to the mouse position with offset
+
+Animate 0,(0,4)(1,4)(2,4)(1,4);
+
+Back:
+	Let X=XM - 14; Let Y=YM - 14;
+	Pause;
+Jump Back
+
+
+AMAL Channel 4
+follow the mouse jerkily without autotest
+
+Let X=130; Let Y=50; Let A=6;
+Back:
+	Let R0=XM-30; Let R1=YM-30;
+	Move R0-X, R1-Y, 20;
+Jump Back
+
+
+AMAL Channel 5
+follow the mouse smoothly with autotest
+AUtotest
+(
+	Let R2=XM-30; Let R3=YM-30;
+	If R0 <> R2 then Jump Update
+	If R1 <> R3 then Jump Update
+	else eXit
+	
+	Update:
+		Let R0=XM-30; Let R1=YM-30;
+	Direct Manoeuvre;
+)
+
+Let X=130; Let Y=50; Let A=6;
+
+Manoeuvre:
+	Move R0-X, R1-Y, 25;
+Wait;
+
+
+AMAL Channel 6
+simple game control
+
+Let X=320; Let Y=256; Let A=8;
+Back:
+	Pause;
+	If J1&1 then Jump Up;
+	If J1&2 then Jump Down;
+	If J1&4 then Jump Left;
+	If J1&8 then Jump Right;
+Jump Back
+
+Up:	Let Y=Y-5;	Jump Back
+Down:	Let Y=Y+5;	Jump Back
+Left:	Let X=X-5;	Jump Back
+Right:	Let X=X+5;	Jump Back
+
+
+AMAL Channel 7
+simple sprite ai
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+
+Let X=320; Let Y=256; Let A=1;
+
+Let R1 = Z(10) + 1
+For R2 = 0 To R1 ; Next R2
+Let R3 = 0; flipped status
+
+Anim 0,(0,5)(1,5)(2,5)(1,5)
+
+Back:
+    Pause;
+    Let R0 = Z(3)
+
+    If R0 = 0 then Jump Up
+    If R0 = 1 then Jump Down
+    If R0 = 2 then Jump Left
+    If R0 = 3 then Jump Right
+Jump Back
+
+Up:
+    Move 0, -100, 20
+Jump Back
+
+Down:
+    Move 0, 100, 20
+Jump Back
+
+Left:
+    If R3<>0 Jump X
+P:  Let R3=0
+    Move -100, 0, 20
+Jump Back
+
+Right:
+    If R3<>1 Jump Y
+Q:  Let R3=1
+    Move 100, 0, 20
+Jump Back
+
+X:
+    Anim 0,(0,5)(1,5)(2,5)(1,5)
+Jump P
+
+Y:
+    Anim 0,($8000|0,5)($8000|1,5)($8000|2,5)($8000|1,5)
+Jump Q
+
+
+AMAL Channel 8
+simple sprite ai
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+
+Let X=320; Let Y=256; Let A=1;
+
+Let R1 = Z(10) + 1
+For R2 = 0 To R1 ; Next R2
+Let R3 = 0; flipped status
+
+Anim 0,(0,5)(1,5)(2,5)(1,5)
+
+Back:
+    Pause;
+    Let R0 = Z(3)
+
+    If R0 = 0 then Jump Up
+    If R0 = 1 then Jump Down
+    If R0 = 2 then Jump Left
+    If R0 = 3 then Jump Right
+Jump Back
+
+Up:
+    Move 0, -100, 20
+Jump Back
+
+Down:
+    Move 0, 100, 20
+Jump Back
+
+Left:
+    If R3<>0 Jump X
+P:  Let R3=0
+    Move -100, 0, 20
+Jump Back
+
+Right:
+    If R3<>1 Jump Y
+Q:  Let R3=1
+    Move 100, 0, 20
+Jump Back
+
+X:
+    Anim 0,(0,5)(1,5)(2,5)(1,5)
+Jump P
+
+Y:
+    Anim 0,($8000|0,5)($8000|1,5)($8000|2,5)($8000|1,5)
+Jump Q
+
+
+AMAL Channel 9
+simple sprite ai
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+
+Let X=320; Let Y=256; Let A=1;
+
+Let R1 = Z(10) + 1
+For R2 = 0 To R1 ; Next R2
+Let R3 = 0; flipped status
+
+Anim 0,(0,5)(1,5)(2,5)(1,5)
+
+Back:
+    Pause;
+    Let R0 = Z(3)
+
+    If R0 = 0 then Jump Up
+    If R0 = 1 then Jump Down
+    If R0 = 2 then Jump Left
+    If R0 = 3 then Jump Right
+Jump Back
+
+Up:
+    Move 0, -100, 20
+Jump Back
+
+Down:
+    Move 0, 100, 20
+Jump Back
+
+Left:
+    If R3<>0 Jump X
+P:  Let R3=0
+    Move -100, 0, 20
+Jump Back
+
+Right:
+    If R3<>1 Jump Y
+Q:  Let R3=1
+    Move 100, 0, 20
+Jump Back
+
+X:
+    Anim 0,(0,5)(1,5)(2,5)(1,5)
+Jump P
+
+Y:
+    Anim 0,($8000|0,5)($8000|1,5)($8000|2,5)($8000|1,5)
+Jump Q
+
+
+AMAL Channel 10
+simple sprite ai
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+
+Let X=320; Let Y=256; Let A=1;
+
+Let R1 = Z(10) + 1
+For R2 = 0 To R1 ; Next R2
+Let R3 = 0; flipped status
+
+Anim 0,(0,5)(1,5)(2,5)(1,5)
+
+Back:
+    Pause;
+    Let R0 = Z(3)
+
+    If R0 = 0 then Jump Up
+    If R0 = 1 then Jump Down
+    If R0 = 2 then Jump Left
+    If R0 = 3 then Jump Right
+Jump Back
+
+Up:
+    Move 0, -100, 20
+Jump Back
+
+Down:
+    Move 0, 100, 20
+Jump Back
+
+Left:
+    If R3<>0 Jump X
+P:  Let R3=0
+    Move -100, 0, 20
+Jump Back
+
+Right:
+    If R3<>1 Jump Y
+Q:  Let R3=1
+    Move 100, 0, 20
+Jump Back
+
+X:
+    Anim 0,(0,5)(1,5)(2,5)(1,5)
+Jump P
+
+Y:
+    Anim 0,($8000|0,5)($8000|1,5)($8000|2,5)($8000|1,5)
+Jump Q

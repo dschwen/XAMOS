@@ -1,0 +1,17 @@
+AMAL Channel 1
+simple game control
+
+Let X=320; Let Y=256; Let A=1;
+
+Back:
+	Pause;
+	If J1&1 then Jump Up;
+	If J1&2 then Jump Down;
+	If J1&4 then Jump Left;
+	If J1&8 then Jump Right;
+Jump Back
+
+Up:	Let Y=Y-10;	Jump Back
+Down:	Let Y=Y+10;	Jump Back
+Left:	Let X=X-10;	Jump Back
+Right:	Let X=X+10;	Jump Back

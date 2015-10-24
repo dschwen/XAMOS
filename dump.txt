@@ -1,0 +1,114 @@
+-- The tokenised code:
+- Brain Master (0):
+Bob Off
+Sprite Off
+Rainbow Del
+Screen 0
+Screen Open 0, 1440, 1152, 1.67772e+07, Hires + Laced
+Load "resources/Eater.Abk", 1, 2
+Load "resources/sprites", 2
+Load Iff "resources/bigstarfield.jpg", 0
+Screen Open 1, 620, 70, 1.67773e+07, Hires + Laced
+Screen Display 1, 50, 576 - 75
+Load Iff "resources/back.jpg", 1
+Paste Icon 5, 5, 7
+Paste Icon 417, 5, 7
+Screen 0
+Bob 1, 300, 100, 1
+Channel to Bob 1, 1
+Channel to Bob 2, 1
+NUM = 30
+N = 3
+While N <= (NUM + 4), 31
+Bob N, 500, 500, 1
+Channel to Bob N, N
+N = N + 1
+Wend
+TIME = 61 * 60
+SCORE = 0
+SIZETEXT1 = 1
+SIZETEXT2 = 1
+Ink 255
+Paper 1
+While TIME >= 0, 167
+BC = Bob Col(1)
+
+If BC
+   _COL = Col( - 1)
+   Bob _COL, 500, 500, 1
+   SCORE = SCORE + 100
+   Screen 1
+   OUT$ = "Score: " + Str$(SCORE)
+   TL = Text Length(OUT$)
+
+If SIZETEXT1 < TL
+      SIZETEXT1 = TL
+      End If
+      Ink 1
+      Bar (620 / 2) - (SIZETEXT1 / 2), 0, (620 / 2) + (SIZETEXT1 / 2), 32
+      Ink 255
+      Text (620 / 2) - (SIZETEXT1 / 2), 0, OUT$
+      Screen 0
+      Bell
+      End If
+
+If TIME mod 60 = 0
+         Screen 1
+         OUT$ = "Score: " + Str$(SCORE)
+         TL = Text Length(OUT$)
+
+If SIZETEXT1 < TL
+            SIZETEXT1 = TL
+            End If
+            Ink 1
+            Bar (620 / 2) - (SIZETEXT1 / 2), 0, (620 / 2) + (SIZETEXT1 / 2), 32
+            Ink 255
+            Text (620 / 2) - (SIZETEXT1 / 2), 0, OUT$
+            OUT$ = "Time left: " + (TIME / 60)
+            TL = Text Length(OUT$)
+
+If SIZETEXT2 < TL
+               SIZETEXT2 = TL
+               End If
+               Ink 1
+               Bar (620 / 2) - (SIZETEXT2 / 2), 35, (620 / 2) + (SIZETEXT2 / 2), 67
+               Ink 255
+               Text (620 / 2) - (SIZETEXT2 / 2), 35, OUT$
+               Screen 0
+
+If TIME / 60 <= 10 and TIME > 0
+                  Shoot
+                  End If
+                  End If
+                  Proc 0, 1, 20, 20, 1400, 1040
+                  Screen Offset 0, X Bob(1) / 2, Y Bob(1) / 2 * ((576) / (576 - 80))
+                  TIME = TIME - 1
+                  Wait Vbl
+                  Wend
+                  Boom
+                  Exit
+                  Procedure 0, 192, 5, 12, 13, 14, 15, 16
+                  XB = X Bob(_BOB)
+                  YB = Y Bob(_BOB)
+
+If XB < X1
+                     XB = X1
+                     End If
+
+If XB > X2
+                        XB = X2
+                        End If
+
+If YB < Y1
+                           YB = Y1
+                           End If
+
+If YB > Y2
+                              YB = Y2
+                              End If
+                              Bob _BOB, XB, YB, (_BOB)
+                              End Proc
+
+Variables (19): Hires, Laced, NUM, N, TIME, SCORE, SIZETEXT1, SIZETEXT2, BC, _COL, OUT$, TL, _BOB, X1, Y1, X2, Y2, XB, YB
+
+

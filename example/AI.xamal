@@ -1,0 +1,70 @@
+AMAL Channel 1
+simple sprite ai
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+
+Let X=320; Let Y=256; Let A=1;
+
+Let R1 = Z(10) + 1
+For R2 = 0 To R1 ; Next R2
+Let R3 = 0; flipped status
+
+Anim 0,(0,5)(1,5)(2,5)(1,5)
+
+Back:
+    Pause;
+    Let R0 = Z(3)
+
+    If R0 = 0 then Jump Up
+    If R0 = 1 then Jump Down
+    If R0 = 2 then Jump Left
+    If R0 = 3 then Jump Right
+Jump Back
+
+Up:
+    Move 0, -100, 20
+Jump Back
+
+Down:
+    Move 0, 100, 20
+Jump Back
+
+Left:
+    If R3<>0 Jump X
+P:  Let R3=0
+    Move -100, 0, 20
+Jump Back
+
+Right:
+    If R3<>1 Jump Y
+Q:  Let R3=1
+    Move 100, 0, 20
+Jump Back
+
+X:
+    Anim 0,(0,5)(1,5)(2,5)(1,5)
+Jump P
+
+Y:
+    Anim 0,($8000|0,5)($8000|1,5)($8000|2,5)($8000|1,5)
+Jump Q

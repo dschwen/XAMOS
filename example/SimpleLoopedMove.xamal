@@ -1,0 +1,9 @@
+AMAL Channel 1
+a simple looped move example
+
+Let X=100; Let Y=200; Let A=7;	set initial sprite position
+
+Back:				the jump point
+	Move  200,0,25;		move two hundred pixels to the right
+	Move -200,0,15;		move two hundred pixels to the left faster
+Jump Back			goto the jump point

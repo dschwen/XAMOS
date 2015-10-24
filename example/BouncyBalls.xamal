@@ -1,0 +1,425 @@
+' An example AMAL demo
+' Setup is in the AMAL Environment
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+' Bouncy ball demo
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+Screen Open 0,720,576,16777216,Hires+Laced
+Load Iff "resources/starfield.jpg",0
+Load "resources/sprites", 1
+
+
+AMAL Channel 1
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 2
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 3
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 4
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 5
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 6
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 7
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 8
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 9
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop
+
+AMAL Channel 10
+bouncy ball demo
+
+Let X=Z(500)+20; Let Y=Z(240)+20;
+Let A=6;
+
+Let R0=Z(40)-20; Let R1=Z(40)-20;
+
+Loop:
+	Pause;
+	
+add the x and y speed values
+to our x and y positions
+	Let X = X + R0;
+	Let Y = Y + R1;
+	
+add some gravity to the equation
+	Let R1 = R1 + 2;
+
+bounce if hit the floor or ceiling
+	If Y<20 Jump Bounce
+	If Y>480 Jump Bounce
+    
+shim if hit the wall
+	If X<20 Jump Shim
+	If X>600 Jump Shim    
+Jump Loop
+
+
+Bounce:
+	Let R1 = 0 - R1;
+	Let Y = Y + R1;
+	Let R1 = R1 * 90;
+	Let R1 = R1 / 100;
+Jump Loop
+
+Shim:
+	Let R0 = 0 - R0;
+	Let X = X + R0;
+Jump Loop

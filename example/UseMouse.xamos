@@ -1,0 +1,22 @@
+' Move a sprite in jAMOS using the mouse, click for bell sound
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+' Load the sprites
+Load "resources/sprites", 1
+
+Wait Vbl
+
+Do
+	Sprite 1, X Mouse() - 25, Y Mouse() - 25, 6
+
+	If Mouse Key() : Bell : End If
+
+	Wait Vbl
+Loop
+
+
+AMAL Channel 1

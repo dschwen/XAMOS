@@ -1,0 +1,127 @@
+' An example loading an ABK bank directly and moving its sprites!
+
+' Initialise the display here
+Bob Off
+Sprite Off
+Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+
+' Load a nice background image
+Load Iff "resources/Astronaut.jpg",0
+
+' Load the sprites
+Load "resources/Baby_AMOS.Abk", 1
+Wait Vbl
+
+' Dimension two arrays to hold horizontal and vertical speed
+Dim XSPEED(10), YSPEED(10)
+
+' Not yet implemented - assumed by default for now:
+'Global XSPEED(), YSPEED(), X, Y, I
+
+
+' Initialise our sprites (bobs)
+NUMBOB=1
+While NUMBOB<10
+	' Set a random position
+	X = Rnd(500) + 50
+	Y = Rnd(240) + 100
+
+	' Set the image number to the bob number
+	I = NUMBOB
+
+	' Set a random speed
+	XSPEED(NUMBOB) = Rnd(10) - 5
+	YSPEED(NUMBOB) = Rnd(10) - 5
+
+	' Flip the sprite if moving to the right
+	If XSPEED(NUMBOB)>0
+		I = Hrev(I)
+	End If
+
+	' Create our bobs here
+	Bob NUMBOB, X, Y, I
+
+	' Move onto the next bob if appropriate
+	NUMBOB = NUMBOB + 1
+Wend
+
+' The main loop
+Do
+	' For each of the nine sprites (bobs)
+	NUMBOB=1
+	While NUMBOB<10
+		' Store the position and image number
+		X = X Bob(NUMBOB)
+		Y = Y Bob(NUMBOB)
+		I = I Bob(NUMBOB)
+
+		' Add the X and Y speed values to our X and Y positions
+		X = X + XSPEED(NUMBOB)
+		Y = Y + YSPEED(NUMBOB)
+
+		' Add some gravity to the equation
+		YSPEED(NUMBOB) = YSPEED(NUMBOB) + 1
+
+		' Bounce if hit the floor or ceiling
+		If Y<100 or Y>560
+			Proc BOUNCE[NUMBOB]
+		End If
+
+		' Shim if hit the wall
+		If X<50 or X>630
+			Proc SHIM[NUMBOB]
+		End If
+
+		' Update the bob
+		Bob NUMBOB, X, Y, I
+
+		' Move on to the next bob, if appropriate
+		NUMBOB = NUMBOB + 1
+	Wend
+
+	' Limit the frame rate
+	Wait Vbl
+Loop
+
+' Procedure to bounce the bobs off the floor or ceiling
+Procedure BOUNCE[NUMBOB]
+	' Reverse the vertical speed
+	YSPEED(NUMBOB) = -YSPEED(NUMBOB)
+
+	' Update the position to prevent it from getting stuck
+	Y = Y + YSPEED(NUMBOB)
+
+	' Add some friction - reduce the speed to 87% (87/100)
+	YSPEED(NUMBOB) = YSPEED(NUMBOB) * 87
+	YSPEED(NUMBOB) = YSPEED(NUMBOB) / 100
+End Proc
+
+' Procedure to shim the bobs off the side walls
+Procedure SHIM[NUMBOB]
+	' Reverse the horizontal speed
+	XSPEED(NUMBOB) = -XSPEED(NUMBOB)
+
+	' Update the position to prevent it from getting stuck
+	X = X + XSPEED(NUMBOB)
+
+	' This part flips the image
+
+	' First, get whether the image is already horizontally flipped or not
+	FLIP = I and Hrev(0)
+
+	' Remove any current horizontal flip flag from the image number
+	I = I - FLIP
+
+	' Create a new horizontal flip flag, the reverse of the current horizontal flip status
+	FLIP = Hrev(0) - FLIP
+
+	' Now update the image's horizontal flip status
+	' If it was flipped horizontally before, it is now unflipped
+	' If it was unflipped horizontally before, it is now flipped
+	I = I + FLIP
+End Proc
+
+
+AMAL Channel 1

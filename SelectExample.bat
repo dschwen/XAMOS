@@ -1,0 +1,1 @@
+XAMOS.exe -launcher

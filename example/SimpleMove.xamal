@@ -1,0 +1,13 @@
+AMAL Channel 1
+a simple demonstration of the move command
+note that all lowercase text is ignored in amal
+
+set the initial position to twenty pixels across and down
+
+Let X=20; Let Y=20; Let A=7;
+
+this example moves four hundred pixels to the right
+and two hundred pixels down
+both interpolated over one hundred frames
+
+Move 400, 200, 100;

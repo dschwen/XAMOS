@@ -1,0 +1,82 @@
+' Array example with simple plotter and Mandelbrot
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+
+Load Iff "resources/Astronaut.jpg",0
+Wait Vbl
+
+' Dimension our two array buffers:
+Dim C(720,576),C2(720,576)
+
+' Plot into our array buffers:
+Proc DRAWTOBUFFER1
+Proc DRAWTOBUFFER2
+
+' Alternatively plot both images from their array buffers here:
+Do
+	Proc DRAWFROMBUFFER1
+	Wait Vbl : Wait Vbl : Wait Vbl
+	Proc DRAWFROMBUFFER2
+	Wait Vbl : Wait Vbl : Wait Vbl
+Loop
+
+
+Procedure DRAWTOBUFFER1
+	' Simple plotter into array buffer:
+	Y=0 : While Y<576
+		X=0 : While X<720
+			XX=X-360 : YY=Y-288
+			C(X,Y)=XX*XX+YY*YY
+		X=X+1 : Wend
+	Y=Y+1 : Wend
+End Proc
+
+Procedure DRAWTOBUFFER2
+	' Mandelbrot plotter into array buffer:
+	Y=0 : While Y<576
+		X=0 : While X<720
+			XX#=-2.4+X/163.84
+			YY#=1.8-Y/163.84
+			N=0
+			ZR#=0
+			ZI#=0
+			Repeat 
+				ZR0#=ZR#*ZR#-ZI#*ZI#+XX#
+				ZI#=2*ZR#*ZI#+YY#
+				ZR#=ZR0#
+				N=N+1
+			Until ZR#*ZR#+ZI#*ZI#>4 or N=15
+			CL=N*16+N*256*16
+			C2(X,Y)=CL
+		X=X+1 : Wend
+	Y=Y+1 : Wend
+End Proc
+
+Procedure DRAWFROMBUFFER1
+	' Simple plotter from array buffer:
+	Y=0 : While Y<576
+		X=0 : While X<720
+			Plot X,Y,C(X,Y)
+		X=X+1 : Wend
+	Y=Y+1 : Wend
+End Proc
+
+Procedure DRAWFROMBUFFER2
+	' Simple plotter from array buffer:
+	Y=0 : While Y<576
+		X=0 : While X<720
+			Plot X,Y,C2(X,Y)
+		X=X+1 : Wend
+	Y=Y+1 : Wend
+End Proc
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+
+AMAL Channel 1
+you can write your own amal program here
+this is for sprite one

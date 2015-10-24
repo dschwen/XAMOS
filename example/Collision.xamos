@@ -1,0 +1,27 @@
+' Move a sprite using joystick or cursor keys control
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+' Load the sprites
+Load "resources/sprites", 1
+Wait Vbl
+
+X=100 : Y=100
+
+Bob 2,200,200,1
+
+Do
+	Bob 1,X,Y,1
+
+	If Jleft(1)    : Y=Y-5 : End If
+	If Jright(1)   : Y=Y+5 : End If
+	If Jup(1)      : X=X-5 : End If
+	If Jdown(1)    : X=X+5 : End If
+	If Bob Col(2)  : Bell  : Print "Bob Col(2)=true. Col(-1)="+Col(-1) : End If
+
+	Wait Vbl
+Loop
+

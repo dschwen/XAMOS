@@ -1,0 +1,23 @@
+' Simple Hello World demo in jAMOS
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+A$="Hello"+" "+"World"
+Print A$+"!"
+
+Print "2+2*2 = "+(2+2*2)
+
+Print "Counting down:"
+
+N=10
+While N>0
+	Print N
+	N=N-1
+Wend
+
+Print "Blast off!"
+
+AMAL Channel 1

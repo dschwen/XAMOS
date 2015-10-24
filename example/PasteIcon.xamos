@@ -1,0 +1,41 @@
+' Paste Icon and Paste Bob example:
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+
+Screen Open 0,1440,1152,16777216,Hires+Laced
+Load "resources/3dSSpr.abk", 1, 2
+Load "resources/3dSIco.abk", 2, 2
+Load Iff "resources/bigstarfield.jpg", 0
+
+Paper 0 : Ink 256*256*255
+
+Text 20,40, "Sprite Bank (1):"
+N=1 : While N<=15
+	Paste Bob N*45,100,N
+N++ : Wend
+
+N=1 : While N<=15
+	Ink 0
+	Draw N*45-5, 95, N*45+5, 105
+	Draw N*45-5, 105, N*45+5, 95
+	Ink 256*256*255
+	Text N*45, 200, Str$(N)
+N++ : Wend
+
+Paper 0 : Ink 255*256+255
+Text 20,250, "Icon Bank (2):"
+N=1 : While N<=9
+	Paste Icon N*70,300,N
+	Text N*70, 400, Str$(N)
+N++ : Wend
+
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+
+AMAL Channel 1
+you can write your own amal program here
+this is for sprite one

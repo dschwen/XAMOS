@@ -1,0 +1,19 @@
+' A simple demonstration of the AMAL Animate or Anim command
+
+AMAL Channel 1
+a simple demonstration of the amal animate or anim command
+
+Let X=200; Let Y=200; set initial position to two hundred pixels across and down
+animate the sprite to image zero one two one zero
+each held for twenty frames to make it slow  repeats once
+
+Animate 1,(0, 20)(1, 20)(2, 20)(1, 20)(0, 20);	
+	
+For R0=1 To 110 ; Next R0	wait for a hundred and ten frames
+by adding a value we can flip the sprite horizontally
+this repeats indefinitely and we omit frame zero at the end
+
+Animate 0,($8000, 20)($8001, 20)($8002, 20)($8001, 20);
+	
+For R0=1 To 150 ; Next R0	wait for a hundred and fifty frames
+Move 300, -60, 200;	add a nice simple movement to complete the example

@@ -1,0 +1,45 @@
+' Paste Bob example in jAMOS using the mouse, click to paste!
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/Astronaut.jpg",0
+Wait Vbl
+
+' Load the sprites
+Load "resources/sprites", 1
+
+INDEX = 6
+Do	
+	X=Rnd(720) : Y=Rnd(576) : C=Rnd(16777215)
+	X2=Rnd(200) : Y2=Rnd(200)
+	Ink C
+	Bar X,Y,X+X2,Y+Y2
+
+	X=Rnd(720) : Y=Rnd(576) : C=Rnd(16777215)
+	X2=Rnd(200) : Y2=Rnd(200)
+	Ink C
+	Box X,Y,X+X2,Y+Y2
+
+	X=Rnd(720) : Y=Rnd(576) : C=Rnd(16777215)
+	R=Rnd(200)
+	Ink C
+	Circle X,Y,R
+
+	X=Rnd(720) : Y=Rnd(576) : C=Rnd(16777215)
+	R1=Rnd(200) : R2=Rnd(200)
+	Ink C
+	Ellipse X,Y,R1,R2
+
+	D=0
+	While D<100
+		X=Rnd(720) : Y=Rnd(576) : C=Rnd(16777215)
+		Plot X,Y,C
+		D=D+1
+	Wend
+
+	Wait Vbl
+Loop
+
+
+AMAL Channel 1

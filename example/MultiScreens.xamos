@@ -1,0 +1,62 @@
+' Multi-screen example:
+
+Bob Off : Sprite Off : Rainbow Del
+Load "resources/Baby_AMOS.Abk", 1
+
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen Open 1,720,576,16777216,Hires+Laced
+Screen Open 2,720,576,16777216,Hires+Laced
+Screen Open 3,720,576,16777216,Hires+Laced
+Screen Open 4,720,576,16777216,Hires+Laced
+
+Load Iff "resources/back.jpg", 0
+Load Iff "resources/bigstarfield.jpg", 2
+Load Iff "resources/starfield.jpg", 3
+Load Iff "resources/back.jpg", 4
+Load Iff "resources/Astronaut.jpg", 1
+
+Degree
+Dim S(5)
+S(1)=1 : S(2)=1 : S(3)=1 : S(4)=1
+I=0: II=1 : RTIME=0
+
+Do
+	If Rnd(20)=1
+		Screen 0 : Paste Bob Rnd(720), Rnd(576), Rnd(7)+1
+		Screen 1 : Paste Bob Rnd(720), Rnd(576), Rnd(7)+1
+		Screen 2 : Paste Bob Rnd(720), Rnd(576), Rnd(7)+1
+		Screen 3 : Paste Bob Rnd(720), Rnd(576), Rnd(7)+1
+		Screen 4 : Paste Bob Rnd(720), Rnd(576), Rnd(7)+1
+	End If
+
+	Screen Display 1, Cos(I)*20, Sin(I)*20
+	Screen Display 2, Sin(I*5)*20+20, Cos(I)*300+300
+	Screen Display 3, Sin(I*3)*20+20, Sin(I*3)*200+400
+	Screen Display 4, Sin(I)*20+20, Sin(I*5)*150+450
+
+	Sprite 1, Cos(I)*320+350, Sin(I)*250+330, Vrev(S(1))
+	Sprite 2, Cos(I+180)*320+350, Sin(I+180)*250+330, Rev(S(2))
+	Sprite 3, Cos(I+90)*320+350, Sin(I+90)*250+330, Hrev(S(3))
+	Sprite 4, Cos(I+270)*320+350, Sin(I+270)*250+330, S(4)
+	Sprite 5, X Mouse(), Y Mouse()+50, Vrev(2)
+
+	If Sprite Col(5) && RTIME=0
+		II=-II
+		RTIME=30
+		Boom
+		CL=Col(-1)
+		If CL<>-1 : If S(CL)<9 : S(CL)=S(CL)+1 : End If : Else : Bell : End If
+
+		If CL=1 : Load Iff "resources/bigstarfield.jpg", 1
+		Else If CL=2 : Load Iff "resources/starfield.jpg", 2
+		Else If CL=3 : Load Iff "resources/back.jpg", 3
+		Else If CL=4 : Load Iff "resources/Astronaut.jpg", 4
+		End If
+	End If
+	If RTIME>0 : RTIME=RTIME-1 : End If
+
+	I=I+II
+	Wait Vbl
+Loop
+
+

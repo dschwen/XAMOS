@@ -1,0 +1,11 @@
+AMAL Channel 1
+a simple looped for loop
+
+Let X=20; Let Y=300; Let A=7;		set initial sprite position
+
+Back:					this is the jump point
+    Let X=20;				reset the x position
+    For R0=1 To 50			beginning of the for loop
+    	Let X=X+8;			add eight to the x position
+    Next R0				repeat fifty times waiting for each frame
+Jump Back				goto the jump point

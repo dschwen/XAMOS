@@ -1,0 +1,25 @@
+' Mandelbrot plotter in jAMOS!
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+
+Y=0 : While Y<576
+	X=0 : While X<720
+		XX#=-2.4+X/163.84
+		YY#=1.8-Y/163.84
+		N=0
+		ZR#=0
+		ZI#=0
+		Repeat 
+			ZR0#=ZR#*ZR#-ZI#*ZI#+XX#
+			ZI#=2*ZR#*ZI#+YY#
+			ZR#=ZR0#
+			N=N+1
+		Until ZR#*ZR#+ZI#*ZI#>4 or N=15
+		C=N*16+N*256*16
+		Plot X,Y,C
+	X=X+1 : Wend
+Y=Y+1 : Wend
+
+AMAL Channel 1

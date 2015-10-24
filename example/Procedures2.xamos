@@ -1,0 +1,47 @@
+' Procedure argument pass and return example
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+' The main loop:
+Print "Using a procedure to return 10 random numbers:"
+N=0 : While N<10
+	Proc RANDOM100
+	Print Param()
+N=N+1 : Wend
+Print ""
+
+Proc MULTIPRINT["Testing", 5]
+Print Param$()
+Print ""
+
+Proc RETSTRING
+Print Param$()
+
+
+' Define procedures here:
+Procedure RANDOM100
+End Proc[Rnd(100)]
+
+Procedure RETSTRING
+	A$="Do"
+	A$=A$+"ne!"
+End Proc[A$]
+
+Procedure MULTIPRINT[A$, NUM]
+	T=1 : While T<=NUM
+		Print T+": "+A$
+	T=T+1 : Wend
+End Proc["Successfully printed "+NUM+" strings!"]
+
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+
+AMAL Channel 1
+you can write your own amal program here
+this is for sprite one

@@ -1,0 +1,20 @@
+' Simple plotter in jAMOS
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+
+Y=0
+While Y<576
+	X=0
+	While X<720
+		XX=X - 360 : YY=Y - 288
+
+		C=XX*XX + YY*YY
+		Plot X,Y,C
+
+	X=X+1 : Wend
+Y=Y+1 : Wend
+
+
+AMAL Channel 1

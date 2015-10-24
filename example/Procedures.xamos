@@ -1,0 +1,59 @@
+' Procedure example
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+' The main loop:
+Do
+	Proc MULTIBELL
+	Proc _WAIT40
+	Proc MULTISHOOT
+	Proc _WAIT40
+	Proc MULTIBOOM
+	Proc _WAIT40
+Loop
+
+
+' Define procedures here:
+Procedure MULTIBOOM
+	N=0
+	While N<10
+		Boom
+		N=N+1
+		Proc _WAIT20
+	Wend
+End Proc
+Procedure MULTIBELL
+	N=0
+	While N<10
+		Bell
+		N=N+1
+		Proc _WAIT20
+	Wend
+End Proc
+Procedure MULTISHOOT
+	N=0
+	While N<10
+		Shoot
+		N=N+1
+		Proc _WAIT20
+	Wend
+End Proc
+Procedure _WAIT20
+	W=0 : While W<20 : Wait Vbl : W=W+1 : Wend
+End Proc
+Procedure _WAIT40
+	W=0 : While W<40 : Wait Vbl : W=W+1 : Wend
+End Proc
+
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+
+AMAL Channel 1
+you can write your own amal program here
+this is for sprite one

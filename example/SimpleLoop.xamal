@@ -1,0 +1,10 @@
+AMAL Channel 1
+a simple loop
+
+set the initial position to far left and two forty pixels down
+Let X=0; Let Y=250; Let A=7;
+
+Back:					this is the jump point
+	Let X=X+2;			add two to the x position
+	Pause;				wait for the next frame
+Jump Back				goto the jump point

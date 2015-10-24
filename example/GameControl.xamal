@@ -1,0 +1,58 @@
+AMAL Channel 1
+example game control
+
+AUtotest
+(
+    If X < 10  then Jump A
+    If X > 600 then Jump F
+    If Y < 10  then Jump C
+    If Y > 470 then Jump E
+    eXit
+
+    A:
+        Let X = 10
+    eXit
+    F:
+        Let X = 600
+    eXit
+    C:
+        Let Y = 10
+    eXit
+    E:
+        Let Y = 470
+    eXit
+)
+Let X=320; Let Y=256; Let A=1;
+
+Back:
+	Pause;
+	If J1&16 then Jump Back;
+	
+	Let X=X+R0;
+	Let Y=Y+R1;
+	
+    If J1&1 then Jump Up;
+X:  If J1&2 then Jump Down;
+Y:  If J1&4 then Jump Left;
+Z:  If J1&8 then Jump Right;
+Jump Back
+Up:
+	Let R0 = 0;
+	Let R1 = -6;
+Jump X
+Down:
+	Let R0 = 0;
+	Let R1 = 6;
+Jump Y
+Left:
+	If R0 = -6 then Jump Z
+	Let R0 = -6;
+	Let R1 = 0;
+	Anim 0,(0,5)(1,5)(2,5)(1,5);
+Jump Z
+Right:
+	If R0 = 6 then Jump Back
+	Let R0 = 6;
+	Let R1 = 0;
+	Anim 0,($8000+0,5)($8000+1,5)($8000+2,5)($8000+1,5);
+Jump Back

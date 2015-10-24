@@ -1,0 +1,34 @@
+AMAL Channel 1
+a smoother mouse chase example on two channels incorporating autotest
+
+channel one
+follow the mouse smoothly with autotest
+
+AUtotest
+(
+	Let R2=XM-14; Let R3=YM-14;
+	If R0 <> R2 then Jump Update
+	If R1 <> R3 then Jump Update
+	else eXit
+	
+	Update:
+		Let R0=XM-14; Let R1=YM-14;
+	Direct Manoeuvre;
+)
+
+Let X=130; Let Y=50;
+Animate 0,(0,4)(1,4)(2,4)(1,4);
+
+Manoeuvre:
+	Move R0-X, R1-Y, 25;
+Wait;
+
+AMAL Channel 2
+animate our mouse sprite repeatedly with four images each held for four frames
+Animate 0,(0,4)(1,4)(2,4)(1,4);
+
+repeatedly move to the mouse position with offset
+Back:
+	Let X = XM - 14;	Let Y = YM - 14;
+	Pause;
+Jump Back

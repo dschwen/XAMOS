@@ -1,0 +1,44 @@
+' An example of multiple programs running concurrently
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+' Load the sprites
+Load "resources/sprites", 1
+
+Wait Vbl
+
+Do
+	X=X Mouse() - 25 : Y=Y Mouse() - 25
+	Sprite 1,X,Y,6
+	If Mouse Key() : Bell : End If
+	Wait Vbl	
+Loop
+
+Brain Second
+   X=20
+   Do
+      If X>500 : X=20 : End If
+      Bob 81,X,300,7
+      X=X+5
+      Wait Vbl
+   Loop
+EndBrain
+
+Brain Third
+	Do
+		Bob 82,Second.X,400,8
+		Wait Vbl
+	Loop
+EndBrain
+
+Brain Fourth
+	Do
+		Bob 83,Master.X,500,1
+		Wait Vbl
+	Loop
+EndBrain
+
+AMAL Channel 1

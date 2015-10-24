@@ -1,0 +1,29 @@
+' Paste Bob example in jAMOS using the mouse, click to paste!
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/Astronaut.jpg",0
+
+' Load the sprites
+Load "resources/Baby_AMOS.Abk", 1
+Wait Vbl
+
+INDEX = 1
+Do
+	Bob 1, X Mouse(), Y Mouse() + 40, INDEX
+
+	If Mouse Key()
+		Paste Bob X Mouse(), Y Mouse() + 40, INDEX
+
+		INDEX=INDEX+1
+		If INDEX > 8
+			INDEX=1
+		End If
+	End If
+
+	Wait Vbl
+Loop
+
+
+AMAL Channel 1

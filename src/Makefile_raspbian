@@ -1,0 +1,20 @@
+CC=g++
+
+CFLAGS=-c -O3 -D USESDL -D GLES -D USEBOOST -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads
+LDFLAGS=-L/opt/vc/lib -lSDLmain -lSDL -lSDL_image -lSDL_mixer -lSDL_gfx -lSDL_ttf -lEGL -lGLESv2
+
+SOURCES=main.cpp XAMOS.cpp SDL_collide.cpp Console.cpp AMALDebugTest.cpp PrintStream.cpp AMALBank.cpp AMALEnvGen.cpp AMALParser.cpp AMALInterpreter.cpp AMALCompiler.cpp AmalPrograms.cpp Timer.cpp AMOS_Sprite.cpp MequaScript.cpp AMOS_System.cpp GameEngineWrapper.cpp Mytype.cpp Mytypearray.cpp TheTokens.cpp Parser.cpp Dumper.cpp Interpreter.cpp CommandWrapper.cpp ActiveObject.cpp
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=../XAMOS
+
+all: $(SOURCES) $(EXECUTABLE)
+	
+$(EXECUTABLE): $(OBJECTS) 
+	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
+
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm -rf $(EXECUTABLE) *.o
+

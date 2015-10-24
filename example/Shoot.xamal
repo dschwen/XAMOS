@@ -1,0 +1,142 @@
+' An example AMAL demo
+' Setup is in the AMAL Environment
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+' Example shooting demo
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+Screen Open 0,720,576,16777216,Hires+Laced
+Load "resources/sprites", 1
+Load Iff "resources/starfield.jpg",0
+
+
+AMAL Channel 1
+example game control
+
+Let X=320; Let Y=256; Let A=1;
+Let RA=0;
+
+Back:
+    Pause;
+
+    If X < 10  then Jump A
+    If X > 685 then Jump A
+V:  If Y < 10  then Jump C
+    If Y > 535 then Jump C
+    Jump P;
+
+    A:
+        Let R0 = 0 - R0;
+		Let X = X + R0;
+    	Jump V;
+    C:
+        Let R1 = 0 - R1;
+		Let Y = Y + R1;
+    	Jump P;
+
+    P:
+		Let R0 = R0 * 98;
+		Let R0 = R0 / 100;
+		Let R1 = R1 * 98;
+		Let R1 = R1 / 100;
+	
+    	If J1&1 then Jump Up;
+X:  	If J1&2 then Jump Down;
+Y:  	If J1&4 then Jump Left;
+Z:  	If J1&8 then Jump Right;
+
+Q:  
+
+	Let X=X+R0;
+	Let Y=Y+R1;
+
+	If RA<>0 then Jump Back;
+
+	If J1&16 then Jump Shoot;
+Jump Back
+
+Up:
+	Let R1 = R1 - 2;
+Jump X
+Down:
+	Let R1 = R1 + 2;
+Jump Y
+Left:
+	Let R0 = R0 - 2;
+	If A < $8000 then Jump Z
+	Anim 0,(0,5)(1,5)(2,5)(1,5);
+Jump Z
+Right:
+	Let R0 = R0 + 2;
+	If A > $7FFF then Jump Q
+	Anim 0,($8000+0,5)($8000+1,5)($8000+2,5)($8000+1,5);
+Jump Q
+
+
+Shoot:
+	Let RA=1;
+	Let RB=X;
+	Let RC=Y;
+	If A > $7FFF then Jump Toot;
+	Let RB=RB-80;
+	Let RD=-20;
+Jump Back;
+
+Toot:
+	Let RD=20;
+Jump Back;
+
+
+
+AMAL Channel 2
+Let X=10000;
+Let Y=10000;
+Let A=9;
+
+Let R1=0;
+Let R2=0;
+Let R3=0;
+
+Let RB=10000; Let RC=10000; Let RD=0; Let RE=0;
+
+Loop:
+	Pause;
+	If RA=1 then Jump Shoot;
+	If X<-120 then Jump Die;
+	If X>800 then Jump Die;
+	If R1=0 then Jump Loop;
+	Let X=X+R2;
+	Let Y=Y+R3;
+        If J1&16 then Jump Loop;
+	Jump Release;
+Jump Loop;
+
+Shoot:
+	If R2=1 then Jump Loop
+	Let R1=1;
+	Let R2=1;
+	Let RA=2;
+	Let X=RB;
+	Let Y=RC;
+	Let R2=RD;
+	Let R3=RE;
+Jump Loop;
+
+Release:
+	Let RA=0;
+Jump Loop
+
+Die:
+	Let RA=0;
+	Let RB=10000;
+	Let RC=10000;
+	Let RD=0;
+	Let RE=0;
+	Let X=RB;
+	Let Y=RC;
+Jump Loop;
+

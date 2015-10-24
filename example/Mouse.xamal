@@ -1,0 +1,22 @@
+AMAL Channel 1
+a simple mouse chase example on two channels
+
+channel one
+follow the mouse jerkily without autotest
+
+Let X=130; Let Y=50;
+Animate 0,(0,4)(1,4)(2,4)(1,4);
+Back:
+	Let R0=XM-14; Let R1=YM-14;
+	Move R0-X, R1-Y, 20;
+Jump Back
+
+AMAL Channel 2
+animate our mouse sprite repeatedly with four images each held for four frames
+Animate 0,(0,4)(1,4)(2,4)(1,4);
+
+repeatedly move to the mouse position with offset
+Back:
+	Let X = XM - 14;	Let Y = YM - 14;
+	Pause;
+Jump Back

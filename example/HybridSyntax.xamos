@@ -1,0 +1,19 @@
+// An example of hybrid syntax in jAMOS (in development)
+
+bob Off(); sprite Off(); rainbow Del();
+screen Open(0,720,576,16777216,Hires+Laced);
+screen(0);
+load Iff("resources/back.jpg",0);
+
+// Load the sprites
+load("resources/sprites", 1);
+
+' Standard BASIC-style syntax:
+Print "Test BASIC-style syntax" : Bob 1,100,100,1
+
+
+// C-style syntax:
+print("Test C-style syntax"); bob(2,200,100,1);
+
+
+AMAL Channel 1

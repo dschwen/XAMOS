@@ -1,0 +1,15 @@
+' Dynamic typing and case-insensitivity example
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+Wait Vbl
+
+
+A=2
+Print a+2
+A="I just changed my type!!!111oneoneone11!!"
+Print a+1
+
+AMAL Channel 1

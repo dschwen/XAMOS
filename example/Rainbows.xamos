@@ -1,0 +1,82 @@
+' Simple Rainbow example in XAMOS
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720*2,576*2,16777216,Hires+Laced
+Screen 0
+
+Ink 0 : Bar 0,0,720*2,576*2
+
+N=1 : While N<=100
+	X=Rnd(720*2) : Y=Rnd(576*2) : C=Rnd(16777215)
+	Ink C : Bar X,Y,X+10,Y+10
+	X=Rnd(720*2) : Y=Rnd(576*2)
+	Ink 0 : Bar X,Y,X+10,Y+10
+N=N+1 : Wend
+
+Set Rainbow 0,1,720,"(0,0,0)","(0,0,0)","(0,0,0)"
+Y=0 : While Y<576 : Rain 0,Y,Rnd(4095) : Wait Vbl : Y=Y+1 : Wend
+Bell
+
+Do
+	Set Rainbow 0,1,720,"(1,1,255)","(2,1,255)","(3,1,255)"
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+
+	Set Rainbow 0,1,720,"(1,1,255)","",""
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+
+	Set Rainbow 0,1,720,"(2,1,255)","(2,1,255)",""
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+
+	Set Rainbow 0,1,720,"(5,1,255)","(4,1,255)","(3,1,255)"
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+
+	Set Rainbow 0,1,720,"(5,1,255)","(10,1,255)","(15,1,255)"
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+
+	Set Rainbow 0,1,720,"","(32,1,255)","(2,1,255)"
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+
+	Set Rainbow 0,1,720,"(64,1,255)","(2,1,255)","(16,1,255)"
+	Rainbow 0,0,0,576
+	X=0 : While X<20 : Wait Vbl : X=X+1 : Wend
+Loop
+
+Brain Two
+	' Load the sprites
+	Load "resources/sprites", 1
+
+	Degree
+	S=270
+
+	' The main loop:
+	Do
+		Sprite 1, Cos(S)*200 + 720/2, Sin(S)*200 + 576/2, 6
+		Sprite 2, Sin(S)*200 + 720/2, Cos(S)*200 + 576/2, 8
+		Screen Offset 0, Cos(S)*720/2+720/2, Sin(S)*576/2+576/2,
+		S=S+1
+		Wait Vbl
+	Loop
+EndBrain
+
+Brain Three
+	If 0
+		Do
+			X=Rnd(720*2) : Y=Rnd(576*2) : C=Rnd(16777215)
+			Ink C : Bar X,Y,X+10,Y+10
+			X=Rnd(720*2) : Y=Rnd(576*2)
+			Ink 0 : Bar X,Y,X+10,Y+10
+
+			Wait Vbl : Wait Vbl : Wait Vbl : Wait Vbl : Wait Vbl
+		Loop
+	End If
+EndBrain
+
+
+AMAL Environment
+

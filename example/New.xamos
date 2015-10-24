@@ -1,0 +1,21 @@
+' New jAMOS program
+Bob Off : Sprite Off : Rainbow Del
+
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+Load "resources/sprites", 1
+
+Wait Vbl
+
+Sprite 1,310,225,6
+
+' You can write your own AMOS BASIC code here!
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+AMAL Channel 1
+you can write your own amal program here
+this is for sprite one

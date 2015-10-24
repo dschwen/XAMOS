@@ -1,0 +1,72 @@
+' An example AMAL demo
+' Setup is in the AMAL Environment
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+' A rotation demo
+
+Bob Off : Sprite Off : Rainbow Del
+Screen Open 0,720,576,16777216,Hires+Laced
+Screen 0
+Load Iff "resources/back.jpg",0
+
+Screen Display 0, 0, 5
+Load "resources/sprites", 1
+
+' Set the screen to draggable on an active channel
+Channel To Screen Display 2, 0
+Bob 1,60,60,1
+Channel To Bob 1, 1
+
+' Create the dragbar and ball icon
+Bob 2,0,0,7
+Bob 3,200,0,10
+Bob 4,400,0,7
+Bob 5,590,0,6
+
+' Create the checkmark sprite:
+Sprite 6,595,480,8
+
+AMAL Channel 1
+a simple example of rotation in amal using flipping and predefined images
+
+Let X=60; Let Y=60;				   define initial sprite position
+Back:								define jump point
+	Animate 0,($8000,7)($8001,7)($8002,7)($8001,7);		flip right
+	Move 440, 0, 60; 					move right
+	Animate 0,($4003,7)($4004,7)($4005,7)($4004,7);		rotate down
+	Move 0, 320, 60; 					move down
+	Animate 0,($4000,7)($4001,7)($4002,7)($4001,7);		flip upside down
+	Move -440, 0, 60; 					move left
+	Animate 0,($8003,7)($8004,7)($8005,7)($8004,7);		flip up
+	Move 0, -320, 60;					move up
+Jump Back							goto jump point
+
+AMAL Channel 2
+LX=0;
+LY=5;
+LR1=0; used to specify dragging
+LR2=0; used to specify offset
+Back:
+	Pause;
+        If K1 = 0 then Jump Stopdragging;
+        If R1 = 1 then Jump Update;
+	If XS(0,XM)<0 then Jump Back;
+	If YS(0,YM)<0 then Jump Back;
+	If YS(0,YM)>50 then Jump Back;
+now record the offset of the pointer
+	Let R2=YM-Y offset
+        Jump Update
+Jump Back
+
+Stopdragging: Let R1=0 ; Jump Back
+
+Update:
+        Let R0=YM-Y;
+        Let R0=R0-R2;
+	Let Y=Y+R0;
+
+        Let R1=1;
+Jump Back;

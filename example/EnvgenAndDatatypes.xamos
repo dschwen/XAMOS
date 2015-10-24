@@ -1,0 +1,91 @@
+// An example showing the AMAL Environment Generator, and custom datatypes through multiple brains:
+// This also shows ABK support and hybrid syntax.
+
+
+// Our master brain, the default code entry point:
+Brain Master
+[
+	// TODO - explicitly run AMAL Environment script here:
+	'run amal environment();
+
+	// Wait for all brains to initialise to avoid possible race conditions:
+	wait vbl(); wait vbl();
+
+
+	// Our main loop:
+	while(1)
+	{
+		Data.Y = Data.Y + Data.YSPEED;
+		if ((Data.Y <= 0) || (Data.Y >= 200))
+		{
+			Data.YSPEED = -Data.YSPEED;
+		}
+		screen display(0, 0, Data.Y);
+
+		wait vbl();
+	}
+];
+
+
+// Our second brain, to store two variables in a static data structure to access above:
+Brain Data
+[
+	Y = 0;
+	YSPEED = 1;
+];
+
+
+// This part is processed by the AMAL Environment Generator (EnvGen):
+// It can also be moved above into Brain Master (in place of "run amal environment();")
+// and ran with jAMOS / XAMOS MequaScript.
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+Screen Open 0,720,576,16777216,Hires+Laced
+Load Iff "resources/Astronaut.jpg",0
+Load "resources/Baby_AMOS.abk", 1
+
+Bob 1,100,100,1
+Bob 2,150,100,2
+Bob 3,200,100,3
+Bob 4,250,100,4
+Bob 5,300,100,5
+Bob 6,350,100,6
+Bob 7,400,100,7
+Bob 8,450,100,8
+Bob 9,500,100,9
+
+Bob 11,100,200,32769
+Bob 12,150,200,32770
+Bob 13,200,200,32771
+Bob 14,250,200,32772
+Bob 15,300,200,32773
+Bob 16,350,200,32774
+Bob 17,400,200,32775
+Bob 18,450,200,32776
+Bob 19,500,200,32777
+
+Sprite 1,100,300,49153
+Sprite 2,150,300,49154
+Sprite 3,200,300,49155
+Sprite 4,250,300,49156
+Sprite 5,300,300,49157
+Sprite 6,350,300,49158
+Sprite 7,400,300,49159
+Sprite 8,450,300,49160
+Sprite 9,500,300,49161
+
+Sprite 11,100,400,16385
+Sprite 12,150,400,16386
+Sprite 13,200,400,16387
+Sprite 14,250,400,16388
+Sprite 15,300,400,16389
+Sprite 16,350,400,16390
+Sprite 17,400,400,16391
+Sprite 18,450,400,16392
+Sprite 19,500,400,16393
+

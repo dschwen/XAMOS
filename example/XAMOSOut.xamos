@@ -1,0 +1,118 @@
+' XAMOSOut - Simple Breakout-style example
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+
+Screen Open 0,1440,1152,16777216,Hires+Laced
+Load "resources/sprites", 1
+Load Iff "resources/bigstarfield.jpg",0
+Bob 1,310,225,9
+Wait Vbl
+
+' Create the checkmark sprite
+Sprite 16,595,480,8
+
+' You can edit this! (Stupid values will crash...)
+LIVES=3
+
+L=0
+While L<LIVES
+	Sprite L+100,L*50,0,1
+	L=L+1
+Wend
+
+Y=0
+While Y<5
+	X=0
+	While X<7
+		Bob X+10+Y*8, X*200, Y*50+50, 7
+		X=X+1
+	Wend
+	Y=Y+1
+Wend
+
+BX=0 : BY=0 : BXX=0 : BYY=0 : STARTED=0 : GAMEOVER=0
+BRICKS=35
+While GAMEOVER=0
+	If LIVES=0 : GAMEOVER=1 : End If
+	If BRICKS<=0 : GAMEOVER=2 : End If
+	MX=X Mouse()*2-50 : MY=530
+	If STARTED=0
+		BX=X Mouse()*2-25
+		BY=480
+		If Mouse Key()
+			STARTED=1
+			BXX=5 : BYY=-5
+			Shoot
+		End If
+	End If
+	If STARTED=1
+		If BX<5 : BXX=-BXX : End If
+		If BX>1280 : BXX=-BXX : End If
+		If BY<5 : BYY=-BYY : End If
+
+		If BY>500
+			If BX>(MX-20)
+				If BX<(MX+90)
+					BXX=(BX-MX)/10-3
+					BYY=-BYY
+					Shoot
+				End If
+			End If
+		End If
+
+		If BY>600
+			STARTED=0
+			Bell
+			LIVES=LIVES-1
+			Sprite LIVES+100,100,-100,1
+		End If
+
+		' Simple collision detection:
+		B=10
+		While B<50
+			If BX>(X Bob(B)-50) : If BX<(X Bob(B)+150)
+				If BY>(Y Bob(B)-50) : If BY<(Y Bob(B)+50)
+					Bob B,-100,-100
+					BXX=-BXX : BYY=-BYY
+					BRICKS=BRICKS-1
+					Boom
+				End If : End If
+			End If : End If
+			B=B+1
+		Wend
+
+		BX=BX+BXX : BY=BY+BYY
+	End If
+	Bob 1,BX,BY,6
+	Bob 2,MX,MY,9
+	Screen Offset 0,MX/2+30,0
+	Wait Vbl
+Wend
+
+Bob Off
+
+Do
+	Y=0
+	While Y<500
+		Screen Offset 0,MX/2+20,Y
+		Y=Y+2
+		Wait Vbl
+	Wend
+	While Y>0
+		Screen Offset 0,MX/2+20,Y
+		Y=Y-2
+		Wait Vbl
+	Wend
+Loop
+
+
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+
+AMAL Channel 1
+you can write your own amal program here
+this is for sprite one

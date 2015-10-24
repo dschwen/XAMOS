@@ -1,0 +1,70 @@
+XAMOS alpha release - compiling notes:
+
+-To build on Windows using MinGW and GNU Make, please type the following in a Command Prompt window:
+
+> cd ..... (insert Windows path to extracted XAMOS directory)
+> copy Makefile_mingw Makefile
+> del *.o
+> del *.exe
+make
+
+
+-To build on Linux, Mac OS X, or other Unix-like systems, please type the following in a Terminal window:
+
+> cd ..... (insert Unix path to extracted XAMOS directory)
+> cp Makefile_nonmingw Makefile
+> make clean
+> make
+
+
+-Outputted binary should always be XAMOS.exe. Ensure it has executable permissions.
+-Make sure this is in the extracted archive's root directory (with "resources" and "XAMOS" directories).
+
+
+
+-Required dependencies:
+- G++ (GCC C++ Compiler) - MinGW on Win32
+- GNU Make
+
+- SDL
+- SDLmain (included in SDL)
+- SDL_image
+- SDL_mixer
+- SDL_gfx (on Win32: SDLgfx)
+
+- Boost header files (for a hash table):
+#include <boost/unordered_map.hpp>
+
+
+
+
+-Usage examples:
+
+
+-To run with the default example:
+
+-Unix/Linux:
+> ./XAMOS.exe
+-Win32:
+> XAMOS.exe
+
+-To run with a file:
+
+-Unix/Linux:
+> ./XAMOS.exe XAMOS/Mandelbrot.xamos
+-Win32:
+> XAMOS.exe XAMOS/Mandelbrot.xamos
+
+
+-To launch an example:
+
+-Ensure all example scripts are runnable (Unix/Linux):
+> chmod 777 *.sh
+
+-Unix/Linux:
+> ./Example-LoadAbk.sh
+-Win32:
+> Example-LoadAbk.bat
+
+-You can also launch the example and tutorial scripts from their icons in the XAMOS directory window.
+

@@ -1,0 +1,8 @@
+AMAL Channel 1
+a simple for loop
+
+Let X=20 ; Let Y=300 ; Let A=7;  set initial sprite position
+
+For R0=1 To 100			beginning of the for loop
+	Let X=X+4		add four to the sprite x position
+Next R0				repeat a hundred times waiting for each frame

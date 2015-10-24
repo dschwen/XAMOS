@@ -1,0 +1,448 @@
+' Eater example:
+
+Bob Off : Sprite Off : Rainbow Del
+Screen 0
+
+Screen Open 0,1440,1152,16777216,Hires+Laced
+
+' Added - scale option as third argument (currently 2) - you can edit this:
+Load "resources/Eater.Abk", 1, 2
+
+' Load a XAMOS folder sprite bank as an icon bank:
+Load "resources/sprites", 2
+
+Load Iff "resources/bigstarfield.jpg",0
+Screen Open 1,620,70,16777316,Hires+Laced
+Screen Display 1,50,576-75
+Load Iff "resources/back.jpg",1
+Paste Icon 5,5,7
+Paste Icon 417,5,7
+Screen 0
+
+Bob 1,300,100,1
+Channel To Bob 1,1
+Channel To Bob 2,1
+
+NUM=30
+N=3 : While N<=(NUM+4)
+	Bob N,500,500,1
+	Channel To Bob N,N
+N=N+1 : Wend
+
+TIME=61*60
+SCORE=0
+
+SIZETEXT1=1
+SIZETEXT2=1
+
+Ink 255 : Paper 1
+
+While TIME>=0
+	BC=Bob Col(1)
+	If BC
+	' If BC and Fire(1)
+		_COL=Col(-1)
+		Bob _COL, 500, 500, 1
+		'Amal Off _COL
+		'Channel To Screen _COL, _COL
+		SCORE=SCORE+100
+
+		Screen 1
+		'Paste Bob SCORE*15+45,2,10
+
+		OUT$="Score: "+Str$(SCORE)
+		TL=Text Length(OUT$)
+		If SIZETEXT1 < TL : SIZETEXT1 = TL : End If
+		Ink 1
+		Bar (620/2)-(SIZETEXT1/2), 0, (620/2)+(SIZETEXT1/2), 32
+		Ink 255
+		Text (620/2)-(SIZETEXT1/2), 0, OUT$
+
+		Screen 0 
+		Bell
+	End If
+
+	If TIME mod 60=0
+		Screen 1
+
+		OUT$="Score: "+Str$(SCORE)
+		TL=Text Length(OUT$)
+		If SIZETEXT1 < TL : SIZETEXT1 = TL : End If
+		Ink 1
+		Bar (620/2)-(SIZETEXT1/2), 0, (620/2)+(SIZETEXT1/2), 32
+		Ink 255
+		Text (620/2)-(SIZETEXT1/2), 0, OUT$
+
+		OUT$="Time left: "+Abs(TIME/60)
+		TL=Text Length(OUT$)
+		If SIZETEXT2 < TL : SIZETEXT2 = TL : End If
+		Ink 1
+		Bar (620/2)-(SIZETEXT2/2), 35, (620/2)+(SIZETEXT2/2), 67
+		Ink 255
+		Text (620/2)-(SIZETEXT2/2), 35, OUT$
+
+		Screen 0
+
+		If TIME/60 <= 10 and TIME > 0 : Shoot : End If
+	End If
+
+	Proc KEEP_IN[1,20,20,1400,1040]
+	Screen Offset 0,X Bob(1)/2,Y Bob(1)/2*((576)/(576-80))
+
+	TIME=TIME-1
+	Wait Vbl
+Wend
+
+Boom
+Exit
+
+Procedure KEEP_IN[_BOB,X1,Y1,X2,Y2]
+   XB=X Bob(_BOB)
+   YB=Y Bob(_BOB)
+   If XB<X1 : XB=X1 : End If
+   If XB>X2 : XB=X2 : End If
+   If YB<Y1 : YB=Y1 : End If
+   If YB>Y2 : YB=Y2 : End If
+   Bob _BOB,XB,YB,Ibob(_BOB)
+End Proc
+
+AMAL Environment
+' AMAL Environment Generator
+' This is based on a cut-down version of AMOS BASIC
+
+
+AMAL Channel 1
+Back: Pause ; Let R1=Joy 1 ; If R1=1 Jump Up ; If R1=2 Jump Down ; If R1=4 Jump Left ; If R1=8 Jump Right ; Jump Back 
+Down: Let Y=Y+4 ; Jump Back
+Left: Let X=X-4 ; Jump Back
+Up: Let Y=Y-4 ; Jump Back
+Right: Let X=X+4 ; Jump Back
+
+AMAL Channel 2
+Back: For R3=1 To 20 ; Next R3 ; Let R1=Joy 1 ; If R1=1 Jump Up ; If R1=2 Jump Down ; If R1=4 Jump Left ; If R1=8 Jump Right ; Jump Back
+Down: Anim 1,(1,5)(2,5)(3,5)(2,5) ; Jump Back 
+Left: Anim 1,(4,5)(5,5)(6,5)(5,5) ; Jump Back
+Up: Anim 1,(7,1)(7,1) ; Let A=7 ; Jump Back
+R: Anim 1,($8000+4,5)($8000+5,5)($8000+6,5)($8000+5,5) ; Jump Back
+
+AMAL Channel 3
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 4
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+
+AMAL Channel 5
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 6
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 7
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 8
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 9
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 10
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 11
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 12
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 13
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 14
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 15
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 16
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 17
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 18
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 19
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 20
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 21
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 22
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 23
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 24
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 25
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 26
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 27
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 28
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 29
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 30
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 31
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 32
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 33
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
+AMAL Channel 34
+AUtotest (If X<10 Jump A ; If X>1430 Jump F ; If Y<20 Jump C ; If Y>1140 Jump E ; eXit ;
+A: Let X=10 ; eXit ; F: Let X=1430 ; eXit ; C: Let Y=20 ; eXit ; E: Let Y=1140 ; eXit ) 
+For R1=0 To Z(10)+1 ; Next R1 ; Back: Pause ; Let R0=Z(3) 
+If R0=0 Jump D ; If R0=1 Jump L ; If R0=2 Jump U ; If R0=3 Jump R ; Jump Back 
+D: Anim 0,(15,5)(14,5)(16,5)(14,5) ; Move 0,100,40 ; Jump B 
+L: Anim 0,(8,5)(9,5)(10,5)(9,5) ; Move -100,0,40 ; Jump B 
+U: Anim 0,(12,5)(11,5)(13,5)(11,5) ; Move 0,-100,40 ; Jump B
+R: Anim 0,($8000+8,5)($8000+9,5)($8000+10,5)($8000+9,5) ; Move 100,0,40 ; Jump Back
+
